@@ -1,0 +1,42 @@
+<div class="profile-container" [class.aisdesmall]="asideService.getOpenAsideValue()">
+  <div class="error_div" *ngIf="showMsg">
+    <app-message [message]="msg$ | async"></app-message>
+  </div>
+  <div class="basic-info">
+    <h3 class="basic-word">Edit Excersise</h3>
+  </div>
+  <div class="profile-inputs">
+    <from [formGroup]="exerciseForm">
+      <div class="admin-profile-table">
+        <div class="label-profile">
+          <label for class="label">Name</label>
+          <input type="text" class="info-input" formControlName="name" />
+        </div>
+        <div class="label-profile">
+          <label class="label">Muscle Name</label>
+          <p-dropdown class="info-drop" [options]="bodyPart" formControlName="muscleName" optionLabel="name">
+          </p-dropdown>
+        </div>
+        <div class="label-profile">
+          <label class="label">video Url</label>
+          <input type="text" class="info-input" formControlName="urlVideo" />
+        </div>
+        <div class="label-profile">
+          <label class="label">Image Url</label>
+          <input type="text" class="info-input" formControlName="urlImage" />
+        </div>
+        <div class="label-profile">
+          <label class="label">Burnt Calroies for 30 minutes</label>
+          <input type="number" class="info-input" formControlName="burntCalories" />
+        </div>
+        <div class="label-profile">
+          <label class="label">Description</label>
+          <textarea type="text" class="info-input" formControlName="description"></textarea>
+        </div>
+      </div>
+    </from>
+    <div class="btns">
+      <button class="profile-btn" (click)="edit()">Save</button>
+    </div>
+  </div>
+</div>
