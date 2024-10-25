@@ -84,27 +84,62 @@ export class DataService {
   deleteDoctor(id: string) {
     return this.firestore.collection("doctors").doc(id).delete();
   }
+  // addNewDoctor(form: any) {
+  //   return this.auth["createUserWithEmailAndPassword"](
+  //     form.email,
+  //     "doctor123"
+  //   ).then((res: { user: any }) => {
+  //     console.log("createUserWithEmailAndPassword res :>> ", res);
+
+  //     return this.firestore
+  //       .collection("doctors")
+  //       .doc(res.user.uid)
+  //       .set({ name: form.name, email: form.email, id: res.user.uid })
+  //       .then(() => {
+  //         const msg = "Doctor added successfully";
+  //         return {
+  //           detail: msg,
+  //           severity: "success",
+  //           summary: "Success",
+  //         };
+  //       })
+  //       .catch((err) => {
+  //         console.error(err);
+  //       });
+  //   });
+  // }
+
   addNewDoctor(form: any) {
     return this.auth["createUserWithEmailAndPassword"](
       form.email,
       "doctor123"
     ).then((res: { user: any }) => {
       console.log("createUserWithEmailAndPassword res :>> ", res);
-
-      return this.firestore
-        .collection("doctors")
-        .doc(res.user.uid)
-        .set({ name: form.name, email: form.email, id: res.user.uid })
-        .then(() => {
-          const msg = "Doctor added successfully";
-          return {
-            detail: msg,
-            severity: "success",
-            summary: "Success",
-          };
+      return res.user
+        .updateProfile({
+          displayName: form.name, // Set displayName to the 'name' from the form
         })
-        .catch((err) => {
-          console.error(err);
+        .then((updareRes: any) => {
+          console.log("updateProfile displayName  updareRes :>> ", updareRes);
+
+          return this.firestore
+            .collection("doctors")
+            .doc(res.user.uid)
+            .set({ name: form.name, email: form.email, id: res.user.uid })
+            .then(() => {
+              const msg = "Doctor added successfully";
+              return {
+                detail: msg,
+                severity: "success",
+                summary: "Success",
+              };
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        })
+        .catch((r: any) => {
+          console.error(r);
         });
     });
   }
